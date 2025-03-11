@@ -5,6 +5,7 @@ from command.model.Task import Task
 
 async def addTask(ctx, task_info: str):
     try:
+        memberid = ctx.author.id
         username = ctx.author.name
         avatar = ctx.author.avatar
 
@@ -16,10 +17,9 @@ async def addTask(ctx, task_info: str):
         name, description, time = task_info
 
         # Tạo đối tượng Task
-        task = Task(name, description, time, "False")
+        task = Task(memberid,name, description, time, "False")
 
         try:
-            # Thêm vào database
             command.db.add_task(task)
         except Exception as db_error:
             await ctx.send(f"❌ Database error: {db_error}")

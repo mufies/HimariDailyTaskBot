@@ -35,7 +35,7 @@ async def getTasks(ctx):
 @tasks.loop(seconds=60)
 async def loop():
     channel = bot.get_channel(1239772586452189224)
-    await command.TaskManagement.check_tasks(channel)
+    await command.TaskManagement.check_tasks(channel,bot)
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')

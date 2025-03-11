@@ -1,5 +1,6 @@
 class Task:
-    def __init__(self, name, description,time ,status):
+    def __init__(self,userid, name, description,time ,status):
+        self.userid = userid
         self.name = name
         self.description = description
         self.status = status
@@ -9,6 +10,7 @@ class Task:
 
     def to_dict(self):
         return {
+            "userid": self.userid,
             "name": self.name,
             "description": self.description,
             "time": self.time,
@@ -20,7 +22,5 @@ class Task:
 
     def __str__(self):
         return f"{self.name} - {self.description} - {self.dotw} - {self.time} - {self.status}"
-    
-    def updateStatus(self, status):
-        self.status = status
+
     
