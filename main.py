@@ -44,5 +44,9 @@ async def on_ready():
 async def get_channel_id(ctx):
     await ctx.send(f"📢 Channel ID: `{ctx.channel.id}`")
 token = ''
+@bot.command()
+async def pingme(ctx):
+    delay = round(bot.latency * 5000)
+    await ctx.send(f'📢 User '+ f'<@{ctx.author.id}>')
 
 bot.run(token)

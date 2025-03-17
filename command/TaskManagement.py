@@ -5,6 +5,7 @@ import command.db
 from command.db import *
 from command.model.Task import Task
 from datetime import datetime, timedelta
+import Paginator
 
 
 async def check_tasks(channel,bot):
@@ -28,14 +29,13 @@ async def check_tasks(channel,bot):
         dotw = days_of_week[task_dotw]
         if now.weekday() == dotw and now_time == task_time and task_status == "False":
             await send_noti(channel,userid,task_name,task_description,bot)
-        else:
-            print("❌ Task is not due.")
+
 
 async def send_noti(channel, userid, task_name, task_description, bot):
     user = await bot.fetch_user(userid)
     embed = discord.Embed(
         title="Your task is due!",
-        description=f"<@!{user.id}>\n```{task_name} - {task_description}```",
+        description=f"```{task_name} - {task_description}```",
         colour=0xd4add7,
         timestamp=datetime.now()
     )
@@ -43,6 +43,7 @@ async def send_noti(channel, userid, task_name, task_description, bot):
     embed.set_thumbnail(url=user.avatar)
     embed.set_footer(icon_url="https://i.imgur.com/fumd8iG.jpeg")
 
-    await channel.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=True))
+    await channel.send(f"<@{user.id}>", embed=embed)  
+
 
 
