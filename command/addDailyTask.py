@@ -1,33 +1,27 @@
 import Paginator
 import command
 import command.TaskManagement
-from command.model import *
+import command.db
 from command.model.DailyTask import *
-from command.model.Task import *
-from command.db import *
 from discord import Intents, Client
 from discord.ext import commands
 from datetime import datetime
 import discord
 
-async def addTask(ctx, task_info: str):
+async def addDailyTask(ctx, task_info: str):
     try:
         userid = ctx.author.id
         task_info = task_info.split(' - ')
         name = task_info[0]
         description = task_info[1]
         time = task_info[2]    
-        now = datetime.now().strftime("%H:%M")
-        if(time < now):
-            await ctx.reply("Time should be greater than current time")
-            return
-        task = Task(userid, name, description, time,"False")
-        add_task(task)
+        task = DailyTask(userid, name, description, time)
+        command.db.addDailyTasks(task)
         embed = discord.Embed(title="Your task added succesful",
                         description="```"+task.__str__()+"```",
                       colour=0xd4add7,
                       timestamp=datetime.now())
-        
+
         embed.set_author(name=name)
 
         embed.set_thumbnail(url=ctx.author.avatar)

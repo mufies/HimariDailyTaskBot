@@ -1,10 +1,11 @@
-class Task:
-    def __init__(self,userid, name, description,time,status):
+class DailyTask:
+    def __init__(self,userid, name, description,time):
         self.userid = userid
         self.name = name
         self.description = description
-        self.time = time
-        self.status = status
+        time_str = time.split(" / ")
+        self.time = time_str[1]
+        self.dotw = time_str[0]
         
 
     def to_dict(self):
@@ -13,10 +14,12 @@ class Task:
             "name": self.name,
             "description": self.description,
             "time": self.time,
-            "status": self.status
+            "dotw": self.dotw,
         }
+    
+
 
     def __str__(self):
-        return f"{self.name} - {self.description} - {self.time}"
+        return f"{self.name} - {self.description} - {self.dotw} - {self.time}"
 
     
