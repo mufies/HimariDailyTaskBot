@@ -1,5 +1,6 @@
 class DailyTask:
-    def __init__(self,userid, name, description,time):
+    def __init__(self,guildid,userid, name, description,time):
+        self.guildid = guildid
         self.userid = userid
         self.name = name
         self.description = description
@@ -10,6 +11,7 @@ class DailyTask:
 
     def to_dict(self):
         return {
+            "guildid": self.guildid,
             "userid": self.userid,
             "name": self.name,
             "description": self.description,

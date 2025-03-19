@@ -10,7 +10,7 @@ from discord.ext import commands
 from datetime import datetime
 import discord
 
-async def addTask(ctx, task_info: str):
+async def addTask(ctx, guildid ,task_info: str):
     try:
         userid = ctx.author.id
         task_info = task_info.split(' - ')
@@ -21,7 +21,7 @@ async def addTask(ctx, task_info: str):
         if(time < now):
             await ctx.reply("Time should be greater than current time")
             return
-        task = Task(userid, name, description, time,"False")
+        task = Task(guildid,userid, name, description, time)
         add_task(task)
         embed = discord.Embed(title="Your task added succesful",
                         description="```"+task.__str__()+"```",

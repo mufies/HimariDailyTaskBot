@@ -9,9 +9,11 @@ from datetime import datetime, timedelta
 import Paginator
 
 
-async def check_tasks(channel,bot):
+async def check_tasks(guildid,channel,bot):
     now = datetime.now()
     now_time = now.strftime("%H:%M") 
+    if(now_time == "00:00"):
+        command.db.deleteAllOneTimeTask()
     
     days_of_week = {
         0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday",
@@ -21,8 +23,8 @@ async def check_tasks(channel,bot):
         "Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3,
         "Friday": 4, "Saturday": 5, "Sunday": 6
     }
-    print(f"🕒 Current time: {now_time}, Weekday: {now.weekday()}")  # Debug
-    tasksList = command.db.getDailyTask(days_of_week[now.weekday()],now_time)
+    print(f"🕒 Current time: {now_time}, Weekday: {now.weekday()}")  
+    tasksList = command.db.getDailyTask(guildid,days_of_week[now.weekday()],now_time)
     if(tasksList != None):
         for task in tasksList:
             taskid = task["_id"]
@@ -34,7 +36,8 @@ async def check_tasks(channel,bot):
             dotw = days_of_weeks[task_dotw]
             if now.weekday() == dotw and now_time == task_time:
                 await send_noti(channel,taskid,userid,task_name,task_description,task_time,bot)
-    oneTimeTask = command.db.getOneDayTask(now_time)
+    oneTimeTask = command.db.getOneDayTask(guildid,now_time)
+    
     if(oneTimeTask != None):
         for task in oneTimeTask:
             taskid = task["_id"]
@@ -76,7 +79,7 @@ async def send_one_time_noti(channel, taskid, userid, task_name, task_descriptio
 
         async def callback(self, interaction: discord.Interaction):
             command.db.deleteOneTimeTask(self.taskid)
-            await interaction.response.send_message("✅ Task deleted!", ephemeral=True)
+            await interaction.response.send_message("✅ Task Done!", ephemeral=True)
 
     class SnoozeButton(discord.ui.Button):
         def __init__(self, taskid):

@@ -6,13 +6,13 @@ from command.db import *
 from command.model.DailyTask import *
 from datetime import datetime, timedelta
 
-async def getDailyTask(ctx):
+async def getDailyTask(ctx,guildid):
     days_of_week = {
         "Monday": 0, "Tuesday": 1, "Wednesday": 2, "Thursday": 3,
         "Friday": 4, "Saturday": 5, "Sunday": 6
     }
     userid = ctx.author.id
-    tasks = command.db.getSpecificUserDailyTasks(userid)
+    tasks = command.db.getSpecificUserDailyTasks(guildid,userid)
 
     if not tasks:  
         await ctx.send("No task found!")

@@ -8,21 +8,20 @@ from discord.ext import commands
 from datetime import datetime
 import discord
 
-async def addDailyTask(ctx, task_info: str):
+async def addDailyTask(ctx, guildid,task_info: str):
     try:
         userid = ctx.author.id
         task_info = task_info.split(' - ')
         name = task_info[0]
         description = task_info[1]
         time = task_info[2]    
-        task = DailyTask(userid, name, description, time)
+        task = DailyTask(guildid,userid, name, description, time)
         command.db.addDailyTasks(task)
         embed = discord.Embed(title="Your task added succesful",
                         description="```"+task.__str__()+"```",
                       colour=0xd4add7,
                       timestamp=datetime.now())
 
-        embed.set_author(name=name)
 
         embed.set_thumbnail(url=ctx.author.avatar)
 
